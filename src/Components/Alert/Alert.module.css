@@ -1,0 +1,7 @@
+.alert {
+  position: absolute;
+  z-index: 5;
+  min-width: 70%;
+  font-size: larger;
+  background: rgb(233, 87, 87);
+}

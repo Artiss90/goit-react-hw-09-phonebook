@@ -1,0 +1,8 @@
+.container {
+  display: inline-flex;
+  justify-content: space-between;
+  padding: 10px;
+  width: 800px;
+  max-width: 90%;
+  min-width: 480px;
+}

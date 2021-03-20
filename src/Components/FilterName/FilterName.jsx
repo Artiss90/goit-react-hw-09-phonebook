@@ -1,29 +1,21 @@
 import React from 'react';
 import style from './FilterName.module.css';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { contactsAction, contactsSelectors } from 'redux/contactsRedux';
 
 /* eslint react/prop-types: 1 */
 
-const FilterName = ({ value, onChange }) => (
-  <label className={style.container}>
-    Find contacts by name
-    <input type="text" value={value} onChange={onChange} />
-  </label>
-);
+function FilterName() {
+  const dispatch = useDispatch();
+  const value = useSelector(contactsSelectors.getContactsFilter);
+  const onChange = e => dispatch(contactsAction.changeFilter(e.target.value));
 
-FilterName.propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-};
+  return (
+    <label className={style.container}>
+      Find contacts by name
+      <input type="text" value={value} onChange={onChange} />
+    </label>
+  );
+}
 
-const mapStateToProps = state => ({
-  value: contactsSelectors.getContactsFilter(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  onChange: e => dispatch(contactsAction.changeFilter(e.target.value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(FilterName);
+export default FilterName;

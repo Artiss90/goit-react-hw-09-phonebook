@@ -3,7 +3,7 @@ import { authSelectors, authOperations } from 'redux/auth';
 import defaultAvatar from './default-avatar.png';
 import styles from './UserMenu.module.css';
 
-export default function UserMenu() {
+function UserMenu() {
   const dispatch = useDispatch();
   const name = useSelector(authSelectors.getUserName);
   const avatar = defaultAvatar;
@@ -18,3 +18,5 @@ export default function UserMenu() {
     </div>
   );
 }
+
+export default UserMenu;

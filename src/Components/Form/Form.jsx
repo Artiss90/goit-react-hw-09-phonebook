@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from 'react-toastify';
 import { contactsOperations, contactsSelectors } from 'redux/contactsRedux';
@@ -13,24 +12,17 @@ import { CSSTransition } from 'react-transition-group';
 
 /* eslint react/prop-types: 1 */
 
-class Form extends Component {
-  static propTypes = {
-    onSubmitForm: PropTypes.func,
-    contacts: PropTypes.arrayOf(
-      PropTypes.exact({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        number: PropTypes.string,
-      }),
-    ),
-  };
+function Form() {
+  const dispatch = useDispatch();
+  const contacts = useSelector(contactsSelectors.getContactsItems);
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+  const [alertRepetition, setAlertRepetition] = useState('');
 
-  state = { name: '', number: '', alertRepetition: '' };
+  const nameInputId = uuidv4();
+  const numberInputId = uuidv4();
 
-  nameInputId = uuidv4();
-  numberInputId = uuidv4();
-
-  notify = field =>
+  const notify = field =>
     toast.warn(`поле ${field} не должно бить пустым`, {
       position: 'top-left',
       autoClose: 5000,
@@ -41,93 +33,82 @@ class Form extends Component {
       progress: undefined,
     });
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const { name, number } = this.state;
-    const contactsProps = this.props.contacts;
+
     if (!name) {
-      this.notify('Name');
+      notify('Name');
     }
     if (!number) {
-      this.notify('Number');
+      notify('Number');
     }
-    if (contactsProps.find(contactName => contactName.name === name)) {
+    if (contacts.find(contactName => contactName.name === name)) {
       /**проверка на повторение имён */
-      this.setState({ alertRepetition: `${name} is already in contacts!` });
-      this.reset();
+      setAlertRepetition(`${name} is already in contacts!`);
+      reset();
       return;
     }
     if (name && number) {
-      this.props.onSubmitForm(this.state);
+      dispatch(contactsOperations.addContact({ name, number }));
     }
 
-    this.reset();
+    reset();
   };
 
-  handleChange = e => {
-    const { name, value } = e.currentTarget;
-    this.setState({ [name]: value });
+  const handleChangeName = e => {
+    setName(e.currentTarget.value);
+  };
+  const handleChangeNumber = e => {
+    setNumber(e.currentTarget.value);
   };
 
-  reset = () => {
-    this.setState({ name: '', number: '' });
+  const reset = () => {
+    setName('');
+    setNumber('');
   };
 
-  onResetAlert = () => {
-    this.setState({ alertRepetition: '' });
+  const onResetAlert = () => {
+    setAlertRepetition('');
   };
 
-  render() {
-    const { name, number, alertRepetition } = this.state;
-    return (
-      <>
-        <form onSubmit={this.handleSubmit} className={style.container}>
-          <label htmlFor={this.nameInputId} className={style.item}>
-            Name
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={this.handleChange}
-              id={this.nameInputId}
-            />
-          </label>
-          <label htmlFor={this.numberInputId} className={style.item}>
-            Number
-            <input
-              type="tel"
-              name="number"
-              value={number}
-              onChange={this.handleChange}
-              id={this.numberInputId}
-            />
-          </label>
-          <ToastContainer />
-          <button type="submit">Add contact</button>
-        </form>
-        <CSSTransition
-          //TODO Анимация появления-исчезания предупреждения о совпадении имён по условию
-          in={alertRepetition.length > 0}
-          timeout={3000}
-          classNames={fade}
-          unmountOnExit
-          onEntered={() => this.onResetAlert()}
-        >
-          <Alert message={alertRepetition} />
-        </CSSTransition>
-      </>
-    );
-  }
+  return (
+    <>
+      <form onSubmit={handleSubmit} className={style.container}>
+        <label htmlFor={nameInputId} className={style.item}>
+          Name
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={handleChangeName}
+            id={nameInputId}
+          />
+        </label>
+        <label htmlFor={numberInputId} className={style.item}>
+          Number
+          <input
+            type="tel"
+            name="number"
+            value={number}
+            onChange={handleChangeNumber}
+            id={numberInputId}
+          />
+        </label>
+        <ToastContainer />
+        <button type="submit">Add contact</button>
+      </form>
+      <CSSTransition
+        //TODO Анимация появления-исчезания предупреждения о совпадении имён по условию
+        in={alertRepetition.length > 0}
+        timeout={3000}
+        classNames={fade}
+        unmountOnExit
+        onEntered={() => onResetAlert()}
+      >
+        <Alert message={alertRepetition} />
+      </CSSTransition>
+    </>
+  );
 }
 
-const mapStateToProps = state => ({
-  contacts: contactsSelectors.getContactsItems(state),
-});
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onSubmitForm: contact => dispatch(contactsOperations.addContact(contact)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default Form;

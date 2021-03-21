@@ -1,6 +1,5 @@
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { memo, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from 'react-loader-spinner';
 import {
   contactsAction,
@@ -22,82 +21,61 @@ import { CSSTransition } from 'react-transition-group';
 
 let mixStyle = classNames.bind(style);
 
-class ContactsView extends Component {
-  static propTypes = {
-    contacts: PropTypes.arrayOf(
-      PropTypes.exact({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        number: PropTypes.string,
-      }),
-    ),
-    isLoadingContact: PropTypes.bool,
-    errorContacts: PropTypes.string,
-    clearFilter: PropTypes.func,
-    fetchContacts: PropTypes.func,
-  };
+function ContactsView() {
+  const dispatch = useDispatch();
+  const contacts = useSelector(contactsSelectors.getContactsItems);
+  const isLoadingContact = useSelector(contactsSelectors.getContactsLoading);
+  // const errorContacts = useSelector(contactsSelectors.getContactsError);
+  const clearFilter = () => dispatch(contactsAction.changeFilter(''));
+  const fetchContacts = () => dispatch(contactsOperations.fetchContact());
 
-  componentDidMount() {
-    this.props.fetchContacts();
-  }
+  // !Исправить ошибку зависимостей
+  useEffect(
+    () => fetchContacts(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
-  render() {
-    const { contacts, clearFilter, isLoadingContact } = this.props;
-    return (
-      <>
-        <CSSTransition
-          //TODO добавляем анимацию появления Logo при загрузке страницы
-          in={true}
-          appear={true}
-          timeout={500}
-          classNames={appearSlide}
-          unmountOnExit
-        >
-          <Logo />
-        </CSSTransition>
-        <Form
-        // ? функция добавления контакта реализована через Redux
-        ></Form>
-        <CSSTransition
-          //TODO Анимация появления-исчезания поля для фильтра контактов по условию
-          in={contacts.length > 1}
-          timeout={500}
-          classNames={fade}
-          unmountOnExit
-          onExit={() => clearFilter()}
-        >
-          <FilterName />
-        </CSSTransition>
-        <h2 className={mixStyle('title', 'center')}>Contacts</h2>
-        {isLoadingContact ? (
-          <Loader
-            className={mixStyle('center')}
-            type="Oval"
-            color="#1976d2"
-            height={100}
-            width={100}
-            timeout={0} //3 secs
-          />
-        ) : (
-          <ContactList />
-        )}
-      </>
-    );
-  }
+  return (
+    <>
+      <CSSTransition
+        //TODO добавляем анимацию появления Logo при загрузке страницы
+        in={true}
+        appear={true}
+        timeout={500}
+        classNames={appearSlide}
+        unmountOnExit
+      >
+        <Logo />
+      </CSSTransition>
+      <Form
+      // ? функция добавления контакта реализована через Redux
+      ></Form>
+      <CSSTransition
+        //TODO Анимация появления-исчезания поля для фильтра контактов по условию
+        in={contacts.length > 1}
+        timeout={500}
+        classNames={fade}
+        unmountOnExit
+        onExit={() => clearFilter()}
+      >
+        <FilterName />
+      </CSSTransition>
+      <h2 className={mixStyle('title', 'center')}>Contacts</h2>
+      {isLoadingContact ? (
+        <Loader
+          className={mixStyle('center')}
+          type="Oval"
+          color="#1976d2"
+          height={100}
+          width={100}
+          timeout={0} //3 secs
+        />
+      ) : (
+        <ContactList />
+      )}
+    </>
+  );
 }
 
-const mapStateToProps = state => {
-  return {
-    contacts: contactsSelectors.getContactsItems(state),
-    isLoadingContact: contactsSelectors.getContactsLoading(state),
-    errorContacts: contactsSelectors.getContactsError(state),
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    clearFilter: () => dispatch(contactsAction.changeFilter('')),
-    fetchContacts: () => dispatch(contactsOperations.fetchContact()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsView);
+export default memo(ContactsView);

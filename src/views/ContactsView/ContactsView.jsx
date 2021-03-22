@@ -14,7 +14,8 @@ import classNames from 'classnames/bind';
 //*import style
 import style from './ContactsView.module.css';
 import appearSlide from 'transitionsCSS/appearSlide.module.css'; /**модули CSS указывать до CSSTransition */
-import fade from 'transitionsCSS/fade.module.css';
+// import fade from 'transitionsCSS/fade.module.css';
+import fadeScale from 'transitionsCSS/fadeScale.module.css';
 import { CSSTransition } from 'react-transition-group';
 
 /* eslint react/prop-types: 1 */
@@ -48,14 +49,22 @@ function ContactsView() {
       >
         <Logo />
       </CSSTransition>
-      <Form
-      // ? функция добавления контакта реализована через Redux
-      ></Form>
+      <CSSTransition
+        //TODO добавляем анимацию появления Logo при загрузке страницы
+        in={true}
+        appear={true}
+        timeout={500}
+        classNames={appearSlide}
+        unmountOnExit
+      >
+        <Form />
+      </CSSTransition>
+
       <CSSTransition
         //TODO Анимация появления-исчезания поля для фильтра контактов по условию
         in={contacts.length > 1}
-        timeout={500}
-        classNames={fade}
+        timeout={1000}
+        classNames={fadeScale}
         unmountOnExit
         onExit={() => clearFilter()}
       >

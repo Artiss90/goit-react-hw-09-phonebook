@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: aliceblue;
 }
 .title {
   font-weight: 500;

@@ -77,6 +77,7 @@ function Form() {
         <label htmlFor={nameInputId} className={style.item}>
           Name
           <input
+            className={style.input}
             type="text"
             name="name"
             value={name}
@@ -87,6 +88,7 @@ function Form() {
         <label htmlFor={numberInputId} className={style.item}>
           Number
           <input
+            className={style.input}
             type="tel"
             name="number"
             value={number}

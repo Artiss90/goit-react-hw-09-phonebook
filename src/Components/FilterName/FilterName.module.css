@@ -1,8 +1,18 @@
 .container {
-  display: inline-flex;
-  justify-content: space-between;
-  padding: 10px;
-  width: 800px;
-  max-width: 90%;
-  min-width: 480px;
+  display: flex;
+  margin: 0 auto;
+  min-width: 300px;
+  width: 50%;
+  padding: 30px 30px 6px 30px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background-clip: padding-box;
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 13px 3px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+.input {
+  width: 100%;
 }

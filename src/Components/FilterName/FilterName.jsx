@@ -12,8 +12,13 @@ function FilterName() {
 
   return (
     <label className={style.container}>
-      Find contacts by name
-      <input type="text" value={value} onChange={onChange} />
+      <input
+        className={style.input}
+        type="text"
+        value={value}
+        onChange={onChange}
+        placeholder=" Find contacts by name"
+      />
     </label>
   );
 }

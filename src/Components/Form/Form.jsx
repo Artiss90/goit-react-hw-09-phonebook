@@ -83,6 +83,9 @@ function Form() {
             value={name}
             onChange={handleChangeName}
             id={nameInputId}
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="The name can only consist of letters, apostrophes, dashes and spaces. For instance Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
+            required
           />
         </label>
         <label htmlFor={numberInputId} className={style.item}>
@@ -94,6 +97,9 @@ function Form() {
             value={number}
             onChange={handleChangeNumber}
             id={numberInputId}
+            pattern="/^[+]?(1\-|1\s|1|\d{3}\-|\d{3}\s|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/g"
+            title="Phone number can contain numbers, spaces, dashes, pot-bellied brackets and can start with +"
+            required
           />
         </label>
         <ToastContainer />

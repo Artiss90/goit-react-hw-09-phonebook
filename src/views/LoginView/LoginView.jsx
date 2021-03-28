@@ -32,7 +32,7 @@ function LoginView() {
     <div>
       <h1>Login page</h1>
 
-      <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
+      <form onSubmit={handleSubmit} className={styles.form}>
         <label className={styles.label}>
           E-mail
           <input

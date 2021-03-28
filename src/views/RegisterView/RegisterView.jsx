@@ -36,7 +36,11 @@ function RegisterView() {
     <div>
       <h1>Registration page</h1>
 
-      <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
+      <form
+        onSubmit={handleSubmit}
+        className={styles.form}
+        autoComplete="new-off"
+      >
         <label className={styles.label}>
           Username
           <input type="text" name="name" value={name} onChange={handleChange} />

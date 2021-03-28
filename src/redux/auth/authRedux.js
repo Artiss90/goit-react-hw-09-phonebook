@@ -30,7 +30,9 @@ const errorReducer = createReducer(null, {
   [authAction.loginError]: setError,
   [authAction.loginSuccess]: () => null,
   [authAction.logoutError]: setError,
+  [authAction.logoutSuccess]: () => null,
   [authAction.getCurrentUserError]: setError,
+  [authAction.getCurrentUserSuccess]: () => null,
 });
 
 const isAuthenticatedRedux = createReducer(false, {

@@ -1,5 +1,5 @@
 import AppBar from 'Components/AppBar';
-import React, { lazy, memo, Suspense, useEffect } from 'react';
+import React, { lazy, memo, Suspense, useCallback, useEffect } from 'react';
 import { Switch } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { authOperations } from 'redux/auth';
@@ -25,12 +25,15 @@ const LazyLoginView = lazy(() =>
 
 function App() {
   const dispatch = useDispatch();
-  const onGetCurrentUser = () => dispatch(authOperations.fetchCurrentUser());
+
+  const onGetCurrentUser = useCallback(
+    () => dispatch(authOperations.fetchCurrentUser()),
+    [dispatch],
+  );
 
   useEffect(() => {
     onGetCurrentUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [onGetCurrentUser]);
 
   return (
     <>

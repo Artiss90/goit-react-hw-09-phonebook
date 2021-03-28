@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from 'react-loader-spinner';
 import {
@@ -28,14 +28,14 @@ function ContactsView() {
   const isLoadingContact = useSelector(contactsSelectors.getContactsLoading);
   // const errorContacts = useSelector(contactsSelectors.getContactsError);
   const clearFilter = () => dispatch(contactsAction.changeFilter(''));
-  const fetchContacts = () => dispatch(contactsOperations.fetchContact());
-
-  // !Исправить ошибку зависимостей
-  useEffect(
-    () => fetchContacts(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+  const fetchContacts = useCallback(
+    () => dispatch(contactsOperations.fetchContact()),
+    [dispatch],
   );
+
+  useEffect(() => {
+    fetchContacts();
+  }, [fetchContacts]);
 
   return (
     <>

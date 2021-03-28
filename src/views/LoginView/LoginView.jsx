@@ -1,12 +1,14 @@
+import Alert from 'Components/Alert/Alert';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { authOperations } from 'redux/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { authOperations, authSelectors } from 'redux/auth';
 import styles from './LoginView.module.css';
 
 function LoginView() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const authError = useSelector(authSelectors.getErrorMessage);
 
   const handleChange = ({ target: { name, value } }) => {
     switch (name) {
@@ -53,6 +55,7 @@ function LoginView() {
 
         <button type="submit">Enter</button>
       </form>
+      {authError && <Alert message="invalid password or mail" />}
     </div>
   );
 }

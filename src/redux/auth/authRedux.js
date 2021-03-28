@@ -21,12 +21,14 @@ const tokenReducer = createReducer(null, {
 
 //*абстрагируем вывод ошибки
 const setError = (_, { payload }) => {
-  return payload.message;
+  return [payload.message, payload.config.url];
 };
 
 const errorReducer = createReducer(null, {
   [authAction.registerError]: setError,
+  [authAction.registerSuccess]: () => null,
   [authAction.loginError]: setError,
+  [authAction.loginSuccess]: () => null,
   [authAction.logoutError]: setError,
   [authAction.getCurrentUserError]: setError,
 });

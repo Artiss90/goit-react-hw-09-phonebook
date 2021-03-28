@@ -1,6 +1,7 @@
+import Alert from 'Components/Alert/Alert';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { authOperations } from 'redux/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { authOperations, authSelectors } from 'redux/auth';
 import styles from './RegisterView.module.css';
 
 function RegisterView() {
@@ -8,6 +9,7 @@ function RegisterView() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const authError = useSelector(authSelectors.getErrorMessage);
 
   const handleChange = ({ target: { name, value } }) => {
     switch (name) {
@@ -63,6 +65,7 @@ function RegisterView() {
 
         <button type="submit">Register now</button>
       </form>
+      {authError && <Alert message="a user with this mail already exists" />}
     </div>
   );
 }

@@ -39,11 +39,17 @@ function RegisterView() {
       <form
         onSubmit={handleSubmit}
         className={styles.form}
-        autoComplete="new-off"
+        autoComplete="new-password"
       >
         <label className={styles.label}>
           Username
-          <input type="text" name="name" value={name} onChange={handleChange} />
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={handleChange}
+            autoComplete="new-password"
+          />
         </label>
 
         <label className={styles.label}>
@@ -53,6 +59,7 @@ function RegisterView() {
             name="email"
             value={email}
             onChange={handleChange}
+            autoComplete="new-password"
           />
         </label>
 
@@ -64,6 +71,7 @@ function RegisterView() {
             placeholder="at least 7 characters"
             value={password}
             onChange={handleChange}
+            autoComplete="new-password"
           />
         </label>
 

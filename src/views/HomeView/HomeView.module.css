@@ -1,11 +1,14 @@
 .container {
   min-height: calc(100vh - 50px);
   display: flex;
-  align-items: center;
   justify-content: center;
-  background: aliceblue;
+  background-color: aliceblue;
+  background-image: url(../../images/Header-img.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .title {
+  margin-top: 30px;
   font-weight: 500;
   font-size: 48px;
   text-align: center;

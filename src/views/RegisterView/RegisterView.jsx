@@ -12,7 +12,7 @@ function RegisterView() {
   const [email, setEmail] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const [password, setPassword] = useState('');
-  const authError = useSelector(authSelectors.getErrorMessage);
+  const authError = Boolean(useSelector(authSelectors.getErrorMessage));
 
   const handleChange = ({ target: { name, value } }) => {
     switch (name) {
@@ -97,7 +97,6 @@ function RegisterView() {
       >
         <Alert message="a user with this mail already exists" />
       </CSSTransition>
-      {/* {authError && showAlert &&<Alert message="a user with this mail already exists" />} */}
     </div>
   );
 }

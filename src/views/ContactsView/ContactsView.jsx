@@ -50,7 +50,7 @@ function ContactsView() {
         <Logo />
       </CSSTransition>
       <CSSTransition
-        //TODO добавляем анимацию появления Logo при загрузке страницы
+        //TODO добавляем анимацию появления Form при загрузке страницы
         in={true}
         appear={true}
         timeout={500}

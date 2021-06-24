@@ -3,11 +3,14 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authOperations, authSelectors } from 'redux/auth';
 import styles from './RegisterView.module.css';
+import fadeScale from 'transitionsCSS/fade.module.css';
+import { CSSTransition } from 'react-transition-group';
 
 function RegisterView() {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
   const [password, setPassword] = useState('');
   const authError = useSelector(authSelectors.getErrorMessage);
 
@@ -26,10 +29,14 @@ function RegisterView() {
 
   const handleSubmit = e => {
     e.preventDefault();
+    setShowAlert(true);
     dispatch(authOperations.register({ name, email, password }));
     setName('');
     setEmail('');
     setPassword('');
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 5000); // * hidden error by 5 sec
   };
 
   return (
@@ -49,6 +56,7 @@ function RegisterView() {
             value={name}
             onChange={handleChange}
             autoComplete="new-password"
+            required
           />
         </label>
 
@@ -60,6 +68,7 @@ function RegisterView() {
             value={email}
             onChange={handleChange}
             autoComplete="new-password"
+            required
           />
         </label>
 
@@ -69,15 +78,26 @@ function RegisterView() {
             type="password"
             name="password"
             placeholder="at least 7 characters"
+            minLength="7"
             value={password}
             onChange={handleChange}
             autoComplete="new-password"
+            required
           />
         </label>
 
         <button type="submit">Register now</button>
       </form>
-      {authError && <Alert message="a user with this mail already exists" />}
+      <CSSTransition
+        //TODO Анимация появления-исчезания предупреждения
+        in={showAlert && authError}
+        timeout={500}
+        classNames={fadeScale}
+        unmountOnExit
+      >
+        <Alert message="a user with this mail already exists" />
+      </CSSTransition>
+      {/* {authError && showAlert &&<Alert message="a user with this mail already exists" />} */}
     </div>
   );
 }

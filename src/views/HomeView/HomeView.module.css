@@ -10,6 +10,7 @@
       rgba(25, 199, 126, 0.3)
     ),
     url(../../images/Header-img.jpg);
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }

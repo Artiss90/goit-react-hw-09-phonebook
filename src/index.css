@@ -8,6 +8,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 30px;
   background-image: url(https://web.telegram.org/z/chat-bg.f607e788298d8a7de37a..jpg);
+  background-size: cover;
 }
 
 code {

@@ -77,7 +77,7 @@ function Form() {
         <label htmlFor={nameInputId} className={style.item}>
           Name
           <input
-            className={style.input}
+            className={style.inputName}
             type="text"
             name="name"
             value={name}

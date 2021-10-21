@@ -29,7 +29,7 @@ function LoginView() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Login page</h1>
 
       <form onSubmit={handleSubmit} className={styles.form}>

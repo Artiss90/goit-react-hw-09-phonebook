@@ -40,7 +40,7 @@ function RegisterView() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Registration page</h1>
 
       <form

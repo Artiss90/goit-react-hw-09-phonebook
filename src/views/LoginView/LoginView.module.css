@@ -1,4 +1,10 @@
+.container {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 .form {
+  padding-left: 10px;
+  padding-right: 10px;
   width: 320px;
 }
 .label {
